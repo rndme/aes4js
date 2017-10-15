@@ -1,5 +1,14 @@
 // aes4js, by dandavis. MIT applies.
-
+(function (root, factory) {
+	if (typeof define === 'function' && define.amd) {
+		define([], factory);
+	} else if (typeof exports === 'object') {
+		module.exports = factory();
+	} else {
+		root.aes4js = factory();
+  }
+}(this, function () {
+	
 function aesEnc(key, str) {
 	var iv = window.crypto.getRandomValues(new Uint8Array(12)),
 		encoder = new TextEncoder('utf-8'),
@@ -109,3 +118,12 @@ function dataUrlToBlob(strUrl) { // support util for converting bin arrays
 	for(i; i < mx; ++i) uiArr[i] = binData.charCodeAt(i);
 	return new Blob([uiArr], {type: type});
 } /* end dataUrlToBlob() */
+
+	
+// provide utils as methods:
+return {
+	encrypt: aesEnc, 
+	decrypt: aesDec
+};
+
+}));
