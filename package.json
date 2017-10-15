@@ -1,0 +1,39 @@
+{
+  "name": "aes4js",
+  "main": "aes4js.js",
+  "version": "1.0.0",
+  "description": "A high-level long-term-supported AES-GCM 256 encrypt/decrypt routine for JavaScript using native WebCrypto API",
+  "keywords": [
+    "crypto",
+    "AES",
+    "WebCrypto",
+    "browser"
+  ],
+  "homepage": "https://github.com/rndme/aes4js",
+  "license": "MIT",
+  "author": {
+    "name": "dandavis",
+    "email": "rndme@users.noreply.github.com",
+    "url": "http://danml.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rndme/aes4js.git"
+  },
+  "bugs": {
+    "email": "rndme@users.noreply.github.com"
+  },
+  "files": [
+    "aes4js.js",
+    "aes4js.min.js"
+  ],
+  "npmName": "aes4js",
+  "npmFileMap": [
+    {
+      "basePath": "/",
+      "files": [
+        "*.js"
+      ]
+    }
+  ]
+}
