@@ -46,7 +46,7 @@ function aesEnc(key, str) {
 	.catch(console.error);
 } /* end aesEnc() */
 
-	function aesDec(key, obj) {
+function aesDec(key, obj) {
 	if(typeof obj === "string") obj = JSON.parse(obj);
 	return derive(key).then(function(key) {
 		return new Promise(function(resolve, reject) { // turn dataURL into bin array:
