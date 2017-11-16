@@ -11,6 +11,8 @@ There are only 2 methods:
 * *encrypt(key, plain)* - encode _plain_ (string or arrayBuffer) to ciphertext data object using _key_
 * *decrypt(key, cipher)* - decode _cipher_ object/JSON back into _plain_(string or arrayBuffer) using _key_
 
+# live demo
+See it in action on [a dead-simple encode/decode demo](https://pagedemos.com/qskd4gcdndtg/output/).
 
 # example
 ```
