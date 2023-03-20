@@ -83,7 +83,7 @@ function sha256(str) {
 	});
 } /* end sha256() */
 
-function derive(plainText) { // key derivation using 100k pbkdf w/sha256
+function derive(plainText) { // key derivation using 1,000,000x pbkdf w/sha256
 	if(plainText.length < 10) plainText = plainText.repeat(12 - plainText.length);
 	return sha256("349d" + plainText + "9d3458694307" + plainText.length)
 	  .then(function(salt) {
@@ -96,7 +96,7 @@ function derive(plainText) { // key derivation using 100k pbkdf w/sha256
 			return window.crypto.subtle.deriveKey({
 				"name": 'PBKDF2',
 				"salt": saltBuffer,
-				"iterations": 100000 + plainText.length,
+				"iterations": 1000000 + plainText.length,
 				"hash": 'SHA-256'
 			}, key, {
 				"name": 'AES-GCM',
