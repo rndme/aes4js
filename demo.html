@@ -32,9 +32,6 @@ body { font: 20px arial; }
   ondrop="this.className=''; event.stopPropagation(); event.preventDefault();dodrop(event);">
 	     DROP FILE HERE
 </div>
-  
-  
-
 </main>
 <script>
 // aes4js, by dandavis. MIT applies.
@@ -47,17 +44,15 @@ function handleFile(file) {
 	var fr = new FileReader();
 	fr.onload = function() {
 		if(file.name.endsWith("encrypted")) {
-			aes4js.decrypt(inpKey.value, this.result).then(function(abFile) {
-				var fileBlob = new Blob([abFile])
-				download(fileBlob, file.name.replace(".encrypted", ""));
+			aes4js.decrypt(inpKey.value, this.result).then(function(arrBuffFileContent) {
+				download(new Blob([arrBuffFileContent]), file.name.replace(".encrypted", ""));
 			});
 		} else { // plain text, encrypt:
-			aes4js.encrypt(inpKey.value, this.result).then(JSON.stringify).then(function(strFile) {
-				console.log(strFile);
-				download(strFile, file.name + ".encrypted", "text/plain");
+			aes4js.encrypt(inpKey.value, this.result).then(JSON.stringify).then(function(strFileContents) {
+				download(strFileContents, file.name + ".encrypted");
 			});
-		}
-	};// end if encrypted?
+		}// end if encrypted?
+	}; // end onload()
 
 	if(file.name.endsWith("encrypted")) {
 		fr.readAsText(file); // json input
@@ -65,7 +60,6 @@ function handleFile(file) {
 		fr.readAsArrayBuffer(file); // arbitrary input
 	}
 } //end handleFile()
-
 
 function dodrop(event) {
 	if(inpKey.value.length < 1) return alert("ERROR!\nNo password provided");
