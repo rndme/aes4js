@@ -2,7 +2,7 @@
 A high-level long-term-supported AES-GCM 256 encrypt/decrypt routine for JavaScript using native WebCrypto API
 
 # purpose
-A simple and safe promise-based text+binary encryption library for browsers. It uses plain text keys and plain-text-capable (JSON) ciphertext output for easy integration and storage. Keeping with best practices, the AES Encryption keys are derived from the plain text password using 100,000 rounds of PBKDF with SHA256 to prevent brute-forcing guessing.
+A simple and safe promise-based text+binary encryption library for browsers. It uses plain text keys and plain-text-capable (JSON) ciphertext output for easy integration and storage. Keeping with best practices, the AES Encryption keys are derived from the plain text password using 1,000,000 rounds of PBKDF with SHA256 to prevent brute-forcing guessing.
 
 
 # usage
