@@ -84,6 +84,7 @@ function sha256(str) {
 } /* end sha256() */
 
 function derive(plainText) { // key derivation using 1,000,000x pbkdf w/sha256
+	if(typeof plainText==="object" && plainText.constructor=== CryptoKey) return new Promise(function(resolve, reject){  return resolve(plainText); });
 	if(plainText.length < 10) plainText = plainText.repeat(12 - plainText.length);
 	return sha256("349d" + plainText + "9d3458694307" + plainText.length)
 	  .then(function(salt) {
@@ -123,7 +124,8 @@ function dataUrlToBlob(strUrl) { // support util for converting bin arrays
 // provide utils as methods:
 return {
 	encrypt: aesEnc, 
-	decrypt: aesDec
+	decrypt: aesDec,
+	derive:  derive,
 };
 
 }));
