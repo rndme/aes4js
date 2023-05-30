@@ -13,13 +13,13 @@ function aesEnc(key, str) {
 	var iv = window.crypto.getRandomValues(new Uint8Array(12)),
 		encoder = new TextEncoder('utf-8'),
 		encodedString = encoder.encode(str),
-		bin = false;
+		bin = 0;
 	if(typeof str === "object") { // allows binary as well as string input
 		encodedString = str; // arrayish
-		bin = true;
+		bin = 1;
 	}
 	
-	return derive(key).then(function(key) {
+	return derive(key, iv).then(function(key) {
 		return window.crypto.subtle.encrypt({
 			name: "AES-GCM",
 			iv: iv,
@@ -48,7 +48,7 @@ function aesEnc(key, str) {
 
 function aesDec(key, obj) {
 	if(typeof obj === "string") obj = JSON.parse(obj);
-	return derive(key).then(function(key) {
+	return derive(key, typeof obj.bin==="number" ? obj.iv : "").then(function(key) {
 		return new Promise(function(resolve, reject) { // turn dataURL into bin array:
 			var blob = dataUrlToBlob(obj.encrypted),
 				fr = new FileReader();
@@ -63,9 +63,8 @@ function aesDec(key, obj) {
 				  })
 				  .then(resolve)
 				  .catch(function(y) { // given a op err here, a wrong pw was given
-					if(String(y) === "OperationError") y = "Opps!\r\n\r\nWrong Password, try again.";
+					if(String(y) === "OperationError") y = "Oops!\n\nWrong Password, try again.";
 					reject(y);
-					//resolve(y);
 				}); //end catch
 			}; //end fr.onload()
 			fr.readAsArrayBuffer(blob);
@@ -83,10 +82,11 @@ function sha256(str) {
 	});
 } /* end sha256() */
 
-function derive(plainText) { // key derivation using 1,000,000x pbkdf w/sha256
+function derive(plainText, iv) { // key derivation using 1,000,000x pbkdf w/sha256
 	if(typeof plainText==="object" && plainText.constructor=== CryptoKey) return new Promise(function(resolve, reject){  return resolve(plainText); });
 	if(plainText.length < 10) plainText = plainText.repeat(12 - plainText.length);
-	return sha256("349d" + plainText + "9d3458694307" + plainText.length)
+
+	return sha256("349d" + plainText + "9d3458694307" + plainText.length + String(iv))
 	  .then(function(salt) {
 		var passphraseKey = new TextEncoder().encode(plainText),
 			saltBuffer = new TextEncoder().encode(salt);
